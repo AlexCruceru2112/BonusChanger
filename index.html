@@ -11,8 +11,13 @@
       crossorigin="anonymous"
     />
     <style>
+      .appBox {
+        height: 75vh;
+        width: 75vw;
+      }
       .infoBox {
         width: 25vw;
+        height: 75vh;
         opacity: 0.3;
         transition: 0.3s linear;
       }
@@ -21,20 +26,23 @@
         transition: 0.1s linear;
         cursor: help;
       }
+      img {
+        width: 75%;
+      }
     </style>
     <title>Bonus Changer App</title>
   </head>
   <body class="bg-dark">
     <div class="d-flex align-items-start">
       <div
-        class="container bg-light p-5 m-5 rounded"
+        class="container bg-light p-5 m-5 rounded appBox"
         style="
           font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
         "
       >
-        <div class="d-flex justify-content-between align-items-end">
+        <div class="d-flex justify-content-between align-items-end py-5">
           <div class="container">
-            <div class="display-1">Weapon</div>
+            <div class="display-1">[Weapon name]</div>
           </div>
           <div class="container text-dark">
             <div id="timer" class="text-center text-dark h5"></div>
