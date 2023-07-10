@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <style>
+      .infoBox {
+        width: 25vw;
+        opacity: 0.3;
+        transition: 0.3s linear;
+      }
+      .infoBox:hover {
+        opacity: 1;
+        transition: 0.1s linear;
+        cursor: help;
+      }
+    </style>
+    <title>Bonus Changer App</title>
+  </head>
+  <body class="bg-dark">
+    <div class="d-flex align-items-start">
+      <div
+        class="container bg-light p-5 m-5 rounded"
+        style="
+          font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        "
+      >
+        <div class="d-flex justify-content-between align-items-end">
+          <div class="container">
+            <div class="display-1">Weapon</div>
+          </div>
+          <div class="container text-dark">
+            <div id="timer" class="text-center text-dark h5"></div>
+            <button id="btn" class="btn btn-warning w-100 btn-lg">
+              Change
+            </button>
+          </div>
+        </div>
+        <hr />
+        <div class="d-flex align-items-center">
+          <div class="container">
+            <div class="display-4 d-flex">
+              Attack value:
+              <div class="mx-2 display-4" id="atc">100</div>
+              <span id="atcDifference"></span>
+            </div>
+            <br />
+            <div class="display-6 d-flex">
+              bonus damage:
+              <div class="ms-2 display-6" id="val">15%</div>
+            </div>
+            <div class="display-6 d-flex">
+              critical chance:
+              <div class="mx-2 display-6" id="criticalChance">0%</div>
+              <span id="criticalChanceDifference"></span>
+            </div>
+            <div class="display-6 d-flex">
+              attack speed:
+              <div class="mx-2 display-6" id="attackSpeed">0</div>
+              <span id="attackSpeedDifference"></span>
+            </div>
+            <div class="display-6 d-flex">
+              sharpness:
+              <div class="mx-2 display-6" id="sharpness">1</div>
+            </div>
+          </div>
+          <div class="container">
+            <img src="./1377620.png" class="img-fluid p-5" />
+          </div>
+        </div>
+      </div>
+      <div class="container bg-light p-5 m-5 rounded infoBox">
+        <div class="container h4">
+          Bonus changer App<br /><span class="fs-6 text-secondary"
+            >- made by Alex & Chat GPT •ᴗ•</span
+          >
+        </div>
+
+        <ol class="list-group list-group-numbered">
+          <li
+            class="list-group-item d-flex justify-content-between align-items-start"
+          >
+            <div class="ms-2 me-auto p-2">
+              <div class="fw-bold">HOW TO START</div>
+              You can start the game by pressing the "Change" button.
+            </div>
+          </li>
+          <li
+            class="list-group-item d-flex justify-content-between align-items-start"
+          >
+            <div class="ms-2 me-auto p-2">
+              <div class="fw-bold">HOW IT WORKS</div>
+              Each weapon value will change (RANDOMLY), each time you press the
+              button.
+            </div>
+          </li>
+          <li
+            class="list-group-item d-flex justify-content-between align-items-start"
+          >
+            <div class="ms-2 me-auto p-2">
+              <div class="fw-bold">HOW YOU WIN</div>
+              You can win, by having the most "Damage value", while keeping your
+              other stats high.
+            </div>
+          </li>
+        </ol>
+        <hr />
+        <br />
+        <br />
+
+        <div class="container bg-light rounded">
+          <div class="accordion" id="wikiAccordion">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="wikiHeading">
+                <button
+                  class="accordion-button"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#wikiContent"
+                  aria-expanded="true"
+                  aria-controls="wikiContent"
+                >
+                  App Wiki
+                </button>
+              </h2>
+              <div
+                id="wikiContent"
+                class="accordion-collapse collapse show"
+                aria-labelledby="wikiHeading"
+                data-bs-parent="#wikiAccordion"
+              >
+                <div class="h7 accordion-body">
+                  Bonus Changer App is designed to be user-friendly and
+                  intuitive. To use the app, simply click the 'Change' button to
+                  generate new random values for the weapon statistics.
+                  <br />The Attack Value, Critical Chance, Attack Speed, and
+                  Sharpness will be updated accordingly. The color-coded visuals
+                  provide instant feedback on the changes, with green indicating
+                  an increase, red indicating a decrease, and gray representing
+                  a neutral value. The app incorporates a cooldown timer to
+                  prevent excessive modifications and maintain gameplay balance.
+                  <br /><br />After clicking the 'Change' button, a timer will
+                  start, and the button will be disabled until the cooldown
+                  period elapses. This ensures a fair and controlled gameplay
+                  experience.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      var btn = document.getElementById("btn");
+      var cooldown = false;
+      var timerElement = document.getElementById("timer");
+      var cooldownTime = 1; // Cooldown time in seconds
+
+      function updateValues() {
+        if (cooldown) {
+          return; // Exit the function if the cooldown is active
+        }
+
+        // Set the cooldown to true and disable the button
+        cooldown = true;
+        btn.disabled = true;
+        btn.textContent = timerElement;
+
+        // Set the cooldown to true and disable the button
+        cooldown = true;
+        btn.disabled = true;
+        btn.textContent = "Cooldown";
+
+        // Variabila pentru valoarea inițială a lui atc
+        var initialAtcValue = 100;
+
+        // Funcție pentru a genera o valoare aleatorie între min și max
+        function generateRandomValue(min, max) {
+          return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        // Funcție pentru a genera un procent aleator între -15 și 15 pentru critical chance
+        function generateRandomCriticalChance() {
+          return generateRandomValue(-15, 15);
+        }
+
+        // Funcție pentru a genera un număr aleator între -8 și 8 pentru attack speed
+        function generateRandomAttackSpeed() {
+          return generateRandomValue(-8, 8);
+        }
+
+        // Funcție pentru a genera o valoare aleatorie între 1 și 5 pentru sharpness
+        function generateRandomSharpness() {
+          return generateRandomValue(1, 5);
+        }
+
+        // Funcție pentru a genera un procent aleator între -30 și 60
+        function generateRandomPercentage() {
+          return generateRandomValue(-30, 60);
+        }
+
+        // Funcție pentru a actualiza valorile
+        function updateValues() {
+          var val = document.getElementById("val");
+          var atc = document.getElementById("atc");
+          var criticalChance = document.getElementById("criticalChance");
+          var attackSpeed = document.getElementById("attackSpeed");
+          var sharpness = document.getElementById("sharpness");
+
+          // Generăm valorile aleatorii pentru statistici
+          var percentage = generateRandomPercentage();
+          var criticalChanceValue = generateRandomCriticalChance();
+          var attackSpeedValue = generateRandomAttackSpeed();
+          var sharpnessValue = generateRandomSharpness();
+
+          // Calculăm atcValue bazat pe valoarea inițială a lui atc și procentul din val
+          var atcValue = initialAtcValue + (percentage / 100) * initialAtcValue;
+
+          // Calculăm diferența pentru textul în paranteză
+          var difference = atcValue - initialAtcValue;
+
+          // Actualizăm textul din div-urile corespunzătoare
+          val.textContent = percentage + "%";
+          atc.textContent = Math.floor(atcValue);
+          criticalChance.textContent = criticalChanceValue + "%";
+          attackSpeed.textContent = attackSpeedValue;
+          sharpness.textContent = sharpnessValue;
+
+          // Actualizăm culoarea textului valorilor val, criticalChance, attackSpeed, sharpness
+          val.classList.remove("text-success", "text-danger", "text-secondary");
+          criticalChance.classList.remove(
+            "text-success",
+            "text-danger",
+            "text-secondary"
+          );
+          attackSpeed.classList.remove(
+            "text-success",
+            "text-danger",
+            "text-secondary"
+          );
+          sharpness.classList.remove(
+            "text-success",
+            "text-danger",
+            "text-secondary"
+          );
+
+          // Actualizăm clasa de culoare a valorii val
+          if (percentage > 0) {
+            val.classList.add("text-success");
+          } else if (percentage < 0) {
+            val.classList.add("text-danger");
+          } else {
+            val.classList.add("text-secondary");
+          }
+
+          // Actualizăm clasa de culoare a valorii criticalChance
+          if (criticalChanceValue > 0) {
+            criticalChance.classList.add("text-success");
+          } else if (criticalChanceValue < 0) {
+            criticalChance.classList.add("text-danger");
+          } else {
+            criticalChance.classList.add("text-secondary");
+          }
+
+          // Actualizăm clasa de culoare a valorii attackSpeed
+          if (attackSpeedValue > 0) {
+            attackSpeed.classList.add("text-success");
+          } else if (attackSpeedValue < 0) {
+            attackSpeed.classList.add("text-danger");
+          } else {
+            attackSpeed.classList.add("text-secondary");
+          }
+
+          // Actualizăm clasa de culoare a valorii sharpness
+          if (sharpnessValue === 5) {
+            sharpness.textContent += " (MAX)";
+            sharpness.classList.add("text-warning");
+          } else {
+            sharpness.classList.remove("text-warning");
+          }
+        }
+
+        // Funcție pentru a atașa funcția updateValues la evenimentul de click al butonului
+        function attachButtonClickEvent() {
+          var btn = document.getElementById("btn");
+          btn.addEventListener("click", updateValues);
+        }
+
+        // Apelăm funcția attachButtonClickEvent pentru a lega funcția updateValues de evenimentul de click al butonului
+        attachButtonClickEvent();
+
+        setTimeout(function () {
+          cooldown = false;
+          btn.disabled = false;
+          btn.textContent = "Change";
+        }, cooldownTime * 1000); // Convert cooldown time to milliseconds
+
+        // Start the timer
+        var remainingTime = cooldownTime;
+        timerElement.textContent = remainingTime + "s";
+
+        var countdownInterval = setInterval(function () {
+          remainingTime--;
+          timerElement.textContent = remainingTime + "s";
+
+          if (remainingTime <= 0) {
+            clearInterval(countdownInterval);
+            timerElement.textContent = "";
+            btn.textContent = "Change";
+          }
+        }, 1000); // Update the timer every second
+      }
+
+      btn.addEventListener("click", updateValues);
+    </script>
+  </body>
+</html>
